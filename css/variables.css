@@ -1,0 +1,37 @@
+/* variables.css - CSS переменные */
+:root {
+    /* Основные цвета */
+    --primary: #4a6fa5;
+    --primary-light: #e8edf5;
+    --primary-dark: #3a5a8a;
+    
+    /* Фоны */
+    --bg-body: #f5f7fa;
+    --bg-card: #ffffff;
+    --bg-header: #f0f2f5;
+    --bg-table-stripe: #fafbfc;
+    --bg-hover: #f0f4fa;
+    
+    /* Текст */
+    --text-primary: #2c3e50;
+    --text-secondary: #5a6f8a;
+    --text-muted: #8a9bb5;
+    
+    /* Статусы */
+    --status-planned: #8a9bb5;
+    --status-planned-bg: #edf1f7;
+    --status-confirmed: #5a9a7a;
+    --status-confirmed-bg: #e6f3ee;
+    --status-cancelled: #c0392b;
+    --status-cancelled-bg: #fce8e6;
+    --status-rescheduled: #d4a04a;
+    --status-rescheduled-bg: #f5ede0;
+    
+    /* Тени */
+    --shadow: 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-hover: 0 2px 8px rgba(0,0,0,0.08);
+    
+    /* Скругления */
+    --radius: 6px;
+    --radius-lg: 8px;
+}

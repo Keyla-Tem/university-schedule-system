@@ -1,0 +1,47 @@
+/* controls.css - Панель управления */
+.controls {
+    background: var(--bg-card);
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    border: 1px solid #e8ecf0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+}
+
+.controls .semester-badge {
+    background: var(--primary-light);
+    padding: 2px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    color: var(--primary);
+}
+
+.controls .legend {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+.controls .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: default;
+}
+
+.controls .legend-item .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.dot-planned { background: var(--status-planned); }
+.dot-confirmed { background: var(--status-confirmed); }
+.dot-cancelled { background: var(--status-cancelled); }
+.dot-rescheduled { background: var(--status-rescheduled); }
