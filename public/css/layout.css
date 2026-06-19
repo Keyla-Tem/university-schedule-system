@@ -1,0 +1,72 @@
+/* layout.css - Основная структура */
+.schedule-table-wrapper {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid #e8ecf0;
+    box-shadow: var(--shadow);
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    table-layout: fixed;
+}
+
+/* Заголовки таблицы */
+.schedule-table thead th {
+    background: var(--bg-header);
+    color: var(--text-secondary);
+    padding: 5px 4px;
+    font-weight: 600;
+    font-size: 10px;
+    text-align: center;
+    border-bottom: 2px solid #e0e4ea;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.schedule-table thead th .sub {
+    font-weight: 400;
+    font-size: 8px;
+    color: var(--text-muted);
+    display: block;
+}
+
+/* Строки таблицы */
+.schedule-table tbody td {
+    padding: 3px 3px;
+    border-bottom: 1px solid #eef1f5;
+    vertical-align: top;
+}
+
+.schedule-table tbody tr:nth-child(even) td {
+    background: var(--bg-table-stripe);
+}
+
+.schedule-table tbody tr:hover td {
+    background: var(--bg-hover);
+}
+
+.schedule-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Пустая ячейка */
+.empty-cell {
+    color: #c8d2e0;
+    font-size: 10px;
+    text-align: center;
+    padding: 6px 2px;
+}
+
+/* Футер */
+.footer {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 10px;
+    color: var(--text-muted);
+    padding: 6px;
+    border-top: 1px solid #e8ecf0;
+}

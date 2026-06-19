@@ -1,0 +1,127 @@
+/* responsive.css - Адаптивность */
+
+/* Средние экраны */
+@media (max-width: 1200px) {
+    .schedule-table { font-size: 10px; }
+    .time-cell { width: 44px; min-width: 44px; max-width: 44px; }
+    .lesson { padding: 2px 4px; font-size: 9px; }
+    .lesson .discipline { font-size: 9px; }
+    .lesson .meta { font-size: 8px; gap: 1px 3px; }
+    .lesson .meta .teacher { max-width: 40px; }
+    .lesson .meta .group { max-width: 35px; }
+    .header h1 { font-size: 14px; }
+}
+
+/* Планшеты */
+@media (max-width: 992px) {
+    .schedule-table { font-size: 9px; }
+    .time-cell { width: 38px; min-width: 38px; max-width: 38px; }
+    .time-cell .pair-num { font-size: 10px; }
+    .time-cell .time-range { font-size: 7px; }
+    .lesson { padding: 2px 3px; font-size: 8px; }
+    .lesson .discipline { font-size: 8px; }
+    .lesson .meta { font-size: 7px; gap: 1px 2px; }
+    .lesson .meta .teacher { max-width: 30px; }
+    .lesson .meta .group { max-width: 25px; }
+    .header h1 { font-size: 12px; }
+    .header-info .stat .number { font-size: 12px; }
+    .header-info .stat .label { font-size: 7px; }
+    .controls .legend { font-size: 8px; }
+}
+
+/* Телефоны */
+@media (max-width: 768px) {
+    body { padding: 4px 4px; }
+    
+    .header { 
+        padding: 6px 10px; 
+        flex-direction: column; 
+        gap: 4px; 
+    }
+    .header h1 { font-size: 11px; }
+    .header-info { gap: 6px; }
+    .header-info .stat { padding: 1px 4px; }
+    .header-info .stat .number { font-size: 10px; }
+    .header-info .stat .label { font-size: 6px; }
+    
+    .controls { 
+        padding: 4px 8px; 
+        gap: 4px 8px; 
+    }
+    .controls .semester-badge { 
+        font-size: 9px; 
+        padding: 1px 8px; 
+    }
+    .controls .legend { 
+        font-size: 7px; 
+        gap: 4px; 
+    }
+    
+    .schedule-table { font-size: 8px; }
+    .schedule-table thead th { 
+        font-size: 8px; 
+        padding: 3px 2px; 
+    }
+    .schedule-table thead th .sub { 
+        font-size: 6px; 
+    }
+    .time-cell { 
+        width: 32px; 
+        min-width: 32px; 
+        max-width: 32px; 
+    }
+    .time-cell .pair-num { font-size: 9px; }
+    .time-cell .time-range { font-size: 6px; }
+    
+    .lesson { 
+        padding: 1px 3px; 
+        font-size: 7px; 
+    }
+    .lesson .discipline { font-size: 7px; }
+    .lesson .meta { 
+        font-size: 6px; 
+        gap: 1px 2px; 
+    }
+    .lesson .meta .teacher { max-width: 20px; }
+    .lesson .meta .group { max-width: 20px; }
+    .lesson .meta .room { font-size: 6px; }
+    .lesson .meta .type { font-size: 6px; }
+    .status-badge { 
+        font-size: 5px; 
+        padding: 0 3px; 
+    }
+    .empty-cell { 
+        font-size: 7px; 
+        padding: 3px 1px; 
+    }
+    
+    .schedule-table-wrapper { overflow-x: auto; }
+    .schedule-table { min-width: 480px; }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+    .schedule-table { 
+        min-width: 400px; 
+        font-size: 7px; 
+    }
+    .time-cell { 
+        width: 28px; 
+        min-width: 28px; 
+        max-width: 28px; 
+    }
+    .time-cell .pair-num { font-size: 8px; }
+    .time-cell .time-range { font-size: 5px; }
+    .lesson { 
+        padding: 1px 2px; 
+        font-size: 6px; 
+    }
+    .lesson .discipline { font-size: 6px; }
+    .lesson .meta { font-size: 5px; }
+    .lesson .meta .teacher { max-width: 15px; }
+    .lesson .meta .group { max-width: 15px; }
+    .status-badge { 
+        font-size: 4px; 
+        padding: 0 2px; 
+    }
+}

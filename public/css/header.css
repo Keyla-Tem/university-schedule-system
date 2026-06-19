@@ -1,0 +1,55 @@
+/* header.css - Шапка */
+.header {
+    background: var(--bg-card);
+    padding: 10px 16px;
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    border: 1px solid #e8ecf0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+}
+
+.header h1 {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header h1 .semester-badge-header {
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 1px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.header-info {
+    display: flex;
+    gap: 12px;
+}
+
+.header-info .stat {
+    text-align: center;
+    padding: 2px 8px;
+}
+
+.header-info .stat .number {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--primary);
+    display: block;
+    line-height: 1.2;
+}
+
+.header-info .stat .label {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
