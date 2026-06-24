@@ -28,7 +28,7 @@ class OrganizationUnitController
         }
 
         $units = $this->unitModel->getAllByUniversity($universityId);
-        require_once dirname(__DIR__, 2) . '/views/units/index.php';
+        require_once dirname(__DIR__) . '/Views/units/index.php';
     }
 
     public function create(): void

@@ -16,12 +16,12 @@ class UniversityController
     public function index(): void
     {
         $universities = $this->universityModel->getAll();
-        require_once dirname(__DIR__, 2) . '/views/universities/index.php';
+        require_once dirname(__DIR__) . '/Views/universities/index.php';
     }
 
     public function create(): void
     {
-        require_once dirname(__DIR__, 2) . '/views/universities/create.php';
+        require_once dirname(__DIR__) . '/Views/universities/create.php';
     }
 
     public function store(): void
