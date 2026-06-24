@@ -1,35 +1,42 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Список Университетов</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Справочник Университетов</h2>
-        <a href="index.php?route=universities/create" class="btn btn-primary">Добавить ВУЗ</a>
-    </div>
-    <div class="row">
-        <?php foreach ($universities as $uni): ?>
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= htmlspecialchars($uni['name']) ?></h5>
-                        <p class="text-muted">Код: <?= htmlspecialchars($uni['short_name'] ?? '—') ?></p>
-                        <div class="d-flex justify-content-between mt-3">
-                            <a href="index.php?route=units&university_id=<?= $uni['id'] ?>" class="btn btn-sm btn-success">Структура</a>
-                            <div>
-                                <a href="index.php?route=universities/edit&id=<?= $uni['id'] ?>" class="btn btn-sm btn-outline-warning">Ред.</a>
-                                <a href="index.php?route=universities/delete&id=<?= $uni['id'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Удалить ВУЗ?')">Удал.</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
+<?php 
+// 1. Необязательно, но круто: задаем имя вкладки. 
+// Переменная $pageTitle подставится в тег <title> внутри нашего header.php
+$pageTitle = "Университеты - KeySchedule"; 
+
+// 2. ПОДКЛЮЧАЕМ ШАПКУ И СТИЛИ
+// dirname(__DIR__) автоматически выведет PHP из папки "universities" на один уровень вверх — в папку "Views"
+require_once dirname(__DIR__) . '/layout/header.php'; 
+?>
+
+<div class="header">
+    <h1>Университеты</h1>
 </div>
-</body>
-</html>
+
+<div class="controls">
+    <a href="?route=universities&action=create" class="btn">Добавить университет</a>
+</div>
+
+<div class="schedule-table-wrapper">
+    <table class="schedule-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название вуза</th>
+                <th>Короткое название</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($universities as $uni): ?>
+                <tr>
+                    <td><?= $uni['id'] ?></td>
+                    <td><?= htmlspecialchars($uni['name']) ?></td>
+                    <td><?= htmlspecialchars($uni['short_name']) ?></td>
+                </tr>
+            <?php endforeach; ?> </tbody>
+    </table>
+</div>
+
+<?php 
+// Подключаем подвал сайта
+require_once dirname(__DIR__) . '/layout/footer.php'; 
+?>

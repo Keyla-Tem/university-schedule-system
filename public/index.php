@@ -1,5 +1,17 @@
 <?php
 
+if (!defined('BASE_URL')) {
+    // Получаем путь к текущему файлу index.php от корня веб-сервера.
+    // На XAMPP это будет: "/keyschedule/public/index.php"
+    // На Open Server с доменом keyschedule.local это будет: "/index.php"
+    $scriptName = $_SERVER['SCRIPT_NAME'];
+
+    // Просто убираем "/index.php" из этого пути и получаем чистый базовый URL
+    $baseUrl = str_replace('/index.php', '', $scriptName);
+
+    define('BASE_URL', $baseUrl);
+}
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
