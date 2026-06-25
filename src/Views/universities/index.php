@@ -13,7 +13,9 @@ require_once dirname(__DIR__) . '/layout/header.php';
 </div>
 
 <div class="controls">
-    <a href="?route=universities&action=create" class="btn">Добавить университет</a>
+    <a href="?route=universities&action=create" class="btn" style="background: #2c3e50; color: #fff; padding: 10px 15px; text-decoration: none; border-radius: 5px;">
+        Добавить университет
+    </a>
 </div>
 
 <div class="schedule-table-wrapper">

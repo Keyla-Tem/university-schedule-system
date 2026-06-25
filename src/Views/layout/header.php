@@ -49,7 +49,7 @@
                 <!-- <li><a href="index.php?route=curriculums">📚 Учебные планы</a></li> -->
                 <li><a href="index.php?route=groups">👥 Учебные группы</a></li>
                 <li><a href="index.php?route=teachers">👨‍🏫 Преподаватели</a></li>
-                <li><a href="index.php?route=units">🏢 Подразделения</a></li>
+                <li><a href="index.php?route=units">🏢 Университеты</a></li>
                 <li><a href="index.php?route=classrooms">🚪 Аудитории</a></li>
                 <!-- <li><a href="index.php?route=buildings">🏫 Корпуса</a></li> -->
                 <li><a href="index.php?route=reports">📊 Отчеты</a></li>
