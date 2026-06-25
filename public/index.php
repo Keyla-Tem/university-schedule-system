@@ -77,6 +77,11 @@ switch ($route) {
         $controller->index();
         break;
 
+    case 'reports':
+        $controller = new \App\Controllers\DashboardController();
+        $controller->index();
+        break;
+
     case 'schedule':
         $controller = new \App\Controllers\ScheduleController();
         $controller->index();
