@@ -30,7 +30,7 @@ require_once dirname(__DIR__) . '/src/Models/OrganizationUnit.php';
 require_once dirname(__DIR__) . '/src/Models/StudyGroup.php';
 require_once dirname(__DIR__) . '/src/Models/Teacher.php';
 require_once dirname(__DIR__) . '/src/Models/Schedule.php';
-require_once dirname(__DIR__) . '/src/Models/User.php'; // <-- ДОБАВИЛИ МОДЕЛЬ ЮЗЕРА
+require_once dirname(__DIR__) . '/src/Models/User.php';
 
 // Подключение контроллеров
 require_once dirname(__DIR__) . '/src/Controllers/RoomController.php';
@@ -40,13 +40,12 @@ require_once dirname(__DIR__) . '/src/Controllers/GroupController.php';
 require_once dirname(__DIR__) . '/src/Controllers/TeacherController.php';
 require_once dirname(__DIR__) . '/src/Controllers/ScheduleController.php';
 require_once dirname(__DIR__) . '/src/Controllers/DashboardController.php';
-require_once dirname(__DIR__) . '/src/Controllers/AuthController.php'; // <-- ДОБАВИЛИ КОНТРОЛЛЕР АВТОРИЗАЦИИ
+require_once dirname(__DIR__) . '/src/Controllers/AuthController.php';
 
 $route = $_GET['route'] ?? 'dashboard'; 
 $action = $_GET['action'] ?? 'index';
 
 // === БЛОК ЗАЩИТЫ (AUTH GUARD) ===
-// Если юзер не авторизован и пытается зайти не на логин/регистрацию — кидаем на вход
 if (!isset($_SESSION['user_id']) && $route !== 'login' && $route !== 'register') {
     header("Location: index.php?route=login");
     exit;
@@ -56,23 +55,20 @@ if (!isset($_SESSION['user_id']) && $route !== 'login' && $route !== 'register')
 ob_start();
 
 switch ($route) {
-
-    // --- НОВЫЕ МАРШРУТЫ АВТОРИЗАЦИИ ---
     case 'login':
         $controller = new \App\Controllers\AuthController();
         $controller->login();
-        exit; // Выходим, чтобы не рисовать header/footer вокруг формы входа
+        exit;
 
     case 'register':
         $controller = new \App\Controllers\AuthController();
         $controller->register();
-        exit; // Выходим, чтобы не рисовать header/footer
+        exit;
 
     case 'logout':
         $controller = new \App\Controllers\AuthController();
         $controller->logout();
         exit;
-    // -----------------------------------
 
     case 'dashboard':
         $controller = new \App\Controllers\DashboardController();

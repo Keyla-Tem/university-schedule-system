@@ -7,7 +7,6 @@ class AuthController {
     
     // Отображение и обработка формы Входа
     public function login() {
-        // Если уже вошел — кидаем на главную (пока на группы, например)
         if (isset($_SESSION['user_id'])) {
             header("Location: index.php?route=groups");
             exit;
@@ -20,11 +19,13 @@ class AuthController {
 
             $user = User::findByEmail($email);
 
-            // Проверяем, есть ли юзер и совпадает ли хеш пароля
             if ($user && password_verify($password, $user['password_hash'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['name'];
                 $_SESSION['university_id'] = $user['university_id'];
+                
+                // Сохраняем роль пользователя для разделения прав
+                $_SESSION['role'] = $user['role'] ?? 'user'; 
 
                 header("Location: index.php?route=groups");
                 exit;
@@ -33,7 +34,6 @@ class AuthController {
             }
         }
 
-        // Подключаем вьюху входа (её сделаем на следующем шаге)
         include dirname(__DIR__) . '/Views/auth/login.view.php';
     }
 
@@ -50,13 +50,10 @@ class AuthController {
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            // Проверяем, занят ли email
             if (User::findByEmail($email)) {
                 $error = 'Этот email уже зарегистрирован!';
             } else {
-                // Если свободен — создаем аккаунт
                 if (User::create($name, $email, $password)) {
-                    // После успешной регистрации отправляем на вход
                     header("Location: index.php?route=login");
                     exit;
                 } else {
@@ -65,12 +62,15 @@ class AuthController {
             }
         }
 
-        // Подключаем вьюху регистрации
         include dirname(__DIR__) . '/Views/auth/register.view.php';
     }
 
     // Выход из аккаунта
     public function logout() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION = [];
         session_destroy();
         header("Location: index.php?route=login");
         exit;
