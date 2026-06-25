@@ -94,7 +94,12 @@
 }
 
 .lesson .notes-text {
-    display: none;
+    display: block;
+    font-size: 11px;
+    color: #666;
+    border-top: 1px dashed var(--border-color);
+    margin-top: 5px;
+    padding-top: 3px;
 }
 
 /* Статусы */

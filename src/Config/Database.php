@@ -128,4 +128,13 @@ class Database
     {
         return $this->pdo;
     }
+
+    /**
+     * Статический шорткат — чтобы модели могли писать Database::getConnection()
+     * Внутри просто вызывает getInstance()->getConnection(), singleton сохраняется
+     */
+    public static function getDB(): PDO
+    {
+        return self::getInstance()->getConnection();
+    }
 }
