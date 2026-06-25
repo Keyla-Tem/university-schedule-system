@@ -16,22 +16,26 @@
     <link rel="stylesheet" href="/keyschedule/public/css/table.css">
     <link rel="stylesheet" href="/keyschedule/public/css/lesson.css">
     <link rel="stylesheet" href="/keyschedule/public/css/responsive.css">
-
-    <!-- <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/variables.css">
-    <link rel="stylesheet" href="/css/layout.css">
-    <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="/css/controls.css">
-    <link rel="stylesheet" href="/css/table.css">
-    <link rel="stylesheet" href="/css/lesson.css">
-    <link rel="stylesheet" href="/css/responsive.css"> -->
+    <link rel="stylesheet" href="/keyschedule/public/css/sidebar.css">
 </head>
 <body>
-<div class="container">
-    <nav class="page-nav" style="padding: 15px 0; display: flex; gap: 10px;">
-        <a href="index.php?route=schedule">Расписание</a>
-        <a href="index.php?route=classrooms">Аудитории</a>
-        <a href="index.php?route=groups">Группы</a>
-        <a href="index.php?route=teachers">Преподаватели</a>
-        <a href="index.php?route=universities">Университеты</a>
-    </nav>
+
+<div class="app-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header">📅 Расписание Университета</div>
+        <ul class="nav-menu">
+            <li><a href="index.php?route=dashboard">🏠 Главная</a></li>
+            <li><a href="index.php?route=curriculums">📚 Учебные планы</a></li>
+            <li><a href="index.php?route=groups">👥 Учебные группы</a></li>
+            <li><a href="index.php?route=teachers">👨‍🏫 Преподаватели</a></li>
+            <li><a href="index.php?route=units">🏢 Подразделения</a></li>
+            <li><a href="index.php?route=classrooms">🚪 Аудитории</a></li>
+            <li><a href="index.php?route=buildings">🏫 Корпуса</a></li>
+            <li><a href="index.php?route=schedule">📅 Расписание</a></li>
+            <li><a href="index.php?route=reports">📊 Отчеты</a></li>
+            <li><a href="index.php?route=settings">⚙️ Настройки</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="container">
