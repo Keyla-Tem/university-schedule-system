@@ -7,30 +7,35 @@
         <h1>Расписание занятий</h1>
         
         <div class="schedule-filters">
-    <select id="university-filter" class="filter-select">
-        <option value="">-- Выберите вуз --</option>
-        <?php foreach ($universities as $uni): ?>
-            <option value="<?= $uni['id'] ?>"><?= htmlspecialchars($uni['name']) ?></option>
-        <?php endforeach; ?>
-    </select>
+            <select id="university-filter" class="filter-select">
+                <option value="">-- Выберите вуз --</option>
+                <?php foreach ($universities as $uni): ?>
+                    <option value="<?= $uni['id'] ?>"><?= htmlspecialchars($uni['name']) ?></option>
+                <?php endforeach; ?>
+            </select>
 
-    <select id="group-filter" class="filter-select">
-        <option value="">-- Выберите группу --</option>
-        <?php foreach ($studyGroups as $group): ?>
-            <option value="<?= $group['id'] ?>" <?= $group['id'] == $userGroupId ? 'selected' : '' ?>>
-                <?= htmlspecialchars($group['name']) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
+            <select id="group-filter" class="filter-select">
+                <option value="">-- Выберите группу --</option>
+                <?php foreach ($studyGroups as $group): ?>
+                    <option value="<?= $group['id'] ?>" <?= $group['id'] == $userGroupId ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($group['name']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
 
-    <select id="teacher-filter" class="filter-select">
-        <option value="">-- Выберите преподавателя --</option>
-        <?php foreach ($teachers as $teacher): ?>
-            <option value="<?= $teacher['id'] ?>"><?= htmlspecialchars($teacher['name']) ?></option>
-        <?php endforeach; ?>
-    </select>
-    
-    </div>
+            <select id="teacher-filter" class="filter-select">
+                <option value="">-- Выберите преподавателя --</option>
+                <?php foreach ($teachers as $teacher): ?>
+                    <option value="<?= $teacher['id'] ?>"><?= htmlspecialchars($teacher['name']) ?></option>
+                <?php endforeach; ?>
+            </select>
+
+            <select id="parity-filter" class="filter-select">
+                <option value="both">Любая неделя</option>
+                <option value="odd">Нечетная</option>
+                <option value="even">Четная</option>
+            </select>
+        </div>
     </header>
 
     <div class="schedule-grid" id="schedule-grid">
@@ -41,63 +46,33 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('schedule-grid');
+    const uniFilter = document.getElementById('university-filter');
     const groupFilter = document.getElementById('group-filter');
     const teacherFilter = document.getElementById('teacher-filter');
     const parityFilter = document.getElementById('parity-filter');
+    const daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
 
-    const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-
-    /**
-     * Запрос данных через AJAX (метод handleAjaxSchedule в контроллере)
-     */
-    const uniFilter = document.getElementById('university-filter');
-    const groupFilter = document.getElementById('group-filter');
-
-    const fetchSchedule = async () => {
-        const uniId = uniFilter.value;
-        const groupId = groupFilter.value;
-        const groupId = groupFilter.value;
-        const teacherId = teacherFilter.value;
-        const parity = parityFilter.value;
-
-        uniFilter.addEventListener('change', fetchSchedule);
-
-        grid.innerHTML = '<div class="loading-spinner">Загрузка...</div>';
-
-        // URL строится на основе твоего маршрутизатора
-        const url = `?route=schedule&ajax=1&university_id=${uniId}&study_group_id=${groupId}...`;
-        const url = `?route=schedule&ajax=1&study_group_id=${groupId}&teacher_id=${teacherId}&week_parity=${parity}`;
-
-        try {
-            const response = await fetch(url);
-            const result = await response.json();
-            
-            if (result.success) {
-                renderGrid(result.data, groupId);
-            } else {
-                grid.innerHTML = '<p class="error-msg">Ошибка загрузки данных.</p>';
-            }
-        } catch (error) {
-            grid.innerHTML = '<p class="error-msg">Ошибка сети. Проверьте консоль.</p>';
-        }
-    };
-
-    /**
-     * Отрисовка колонок и карточек занятий
-     */
     const renderGrid = (lessons, selectedGroupId) => {
         grid.innerHTML = '';
-
         for (let i = 1; i <= 6; i++) {
             const col = document.createElement('div');
             col.className = 'day-column';
-            
             const header = document.createElement('div');
             header.className = 'day-header';
             header.textContent = daysOfWeek[i - 1];
             col.appendChild(header);
 
             const dayLessons = lessons.filter(l => parseInt(l.day_of_week) === i);
+            
+            if (!lessons || lessons.length === 0) {
+                grid.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #6c757d;">
+                        <h3>Для отображения расписания выберите параметры поиска</h3>
+                        <p>Укажите ВУЗ, группу или преподавателя в фильтрах выше.</p>
+                    </div>
+                `;
+                return;
+            }
 
             if (dayLessons.length === 0) {
                 col.innerHTML += '<p style="color:#adb5bd; text-align:center;">Нет занятий</p>';
@@ -105,9 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 dayLessons.forEach(lesson => {
                     const card = document.createElement('div');
                     card.className = 'lesson-card';
-                    
                     const timeRange = `${lesson.start_time.substring(0, 5)} - ${lesson.end_time.substring(0, 5)}`;
-                    
                     card.innerHTML = `
                         <div class="lesson-time">${timeRange} (Пара ${lesson.pair_number})</div>
                         <div class="lesson-title">${lesson.discipline_name}</div>
@@ -124,11 +97,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Слушатели событий
-    groupFilter.addEventListener('change', () => { teacherFilter.value = ''; fetchSchedule(); });
-    teacherFilter.addEventListener('change', () => { groupFilter.value = ''; fetchSchedule(); });
-    parityFilter.addEventListener('change', fetchSchedule);
-    uniFilter.addEventListener('change', fetchSchedule);
+    const fetchSchedule = async () => {
+        if (!groupFilter) return;
+        const uniId = uniFilter?.value || '';
+        const groupId = groupFilter?.value || '';
+        const teacherId = teacherFilter?.value || '';
+        const parity = parityFilter?.value || 'both';
+
+        grid.innerHTML = '<div class="loading-spinner">Загрузка данных...</div>';
+        const url = `index.php?route=schedule&ajax=1&university_id=${uniId}&study_group_id=${groupId}&teacher_id=${teacherId}&week_parity=${parity}`;
+
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            const result = JSON.parse(text);
+            
+            if (result.success) {
+                renderGrid(result.data, groupId);
+            } else {
+                grid.innerHTML = '<p class="error-msg">Ошибка данных.</p>';
+            }
+        } catch (error) {
+            console.error("Ошибка:", error);
+            grid.innerHTML = '<p class="error-msg">Ошибка сети или сервера.</p>';
+        }
+    };
+
+    [uniFilter, groupFilter, teacherFilter, parityFilter].forEach(el => {
+        el?.addEventListener('change', fetchSchedule);
+    });
 
     fetchSchedule();
 });

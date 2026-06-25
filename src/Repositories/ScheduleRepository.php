@@ -72,6 +72,14 @@ class ScheduleRepository {
         
         $params = [':semester_id' => $semesterId];
 
+        if (empty($filters['study_group_id']) && 
+            empty($filters['teacher_id'])
+            // empty($filters['university_id'])
+            ) 
+            {
+            return [];
+        }
+
         if (!empty($filters['university_id'])) {
             $sql .= " AND se.university_id = :university_id"; // Убедись, что поле university_id есть в таблице se
             $params[':university_id'] = $filters['university_id'];
@@ -95,6 +103,7 @@ class ScheduleRepository {
 
         // Sort by day first, then by the pair number (time)
         $sql .= " ORDER BY se.day_of_week, bs.pair_number";
+        $db = \App\Config\Database::getDB();
 
         $stmt = $db->prepare($sql);
         $stmt->execute($params);

@@ -38,20 +38,24 @@ class ScheduleController extends BaseController {
      * Returns JSON data for the dynamic schedule grid
      */
     private function handleAjaxSchedule() {
-        header('Content-Type: application/json');
-        
-        // In a real scenario, fetch the active semester ID from DB. Hardcoded to 1 for scaffolding.
-        $semesterId = filter_input(INPUT_GET, 'semester_id', FILTER_VALIDATE_INT) ?: 1; 
+        // Получаем ID семестра из сессии (безопаснее) или GET
+        $semesterId = $_SESSION['semester_id'] ?? 1;
         
         $filters = [
-            'study_group_id' => filter_input(INPUT_GET, 'study_group_id', FILTER_VALIDATE_INT),
-            'teacher_id'     => filter_input(INPUT_GET, 'teacher_id', FILTER_VALIDATE_INT),
-            'week_parity'    => filter_input(INPUT_GET, 'week_parity', FILTER_SANITIZE_SPECIAL_CHARS) ?: 'both'
+            'university_id'  => $_GET['university_id'] ?? null,
+            'study_group_id' => $_GET['study_group_id'] ?? null,
+            'teacher_id'     => $_GET['teacher_id'] ?? null,
+            'week_parity'    => $_GET['week_parity'] ?? 'both'
         ];
 
-        $repository = new ScheduleRepository();
-        $data = $repository->getFilteredSchedule($semesterId, $filters);
+        require_once dirname(__DIR__) . '/Repositories/ScheduleRepository.php'; 
+        $repo = new \App\Repositories\ScheduleRepository();
+        // ВАЖНО: убедись, что метод принимает аргументы в том порядке, 
+        // в котором ты их отправляешь: ($semesterId, $filters)
+        $data = $repo->getFilteredSchedule($semesterId, $filters);
         
+        header('Content-Type: application/json');
+        // Отправляем JSON с флагом success, который ждет твой JS
         echo json_encode(['success' => true, 'data' => $data]);
         exit;
     }

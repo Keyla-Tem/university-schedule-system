@@ -41,6 +41,7 @@ require_once dirname(__DIR__) . '/src/Controllers/OrganizationUnitController.php
 require_once dirname(__DIR__) . '/src/Controllers/GroupController.php';
 require_once dirname(__DIR__) . '/src/Controllers/TeacherController.php';
 require_once dirname(__DIR__) . '/src/Controllers/ScheduleController.php';
+require_once dirname(__DIR__) . '/src/Controllers/TimetableController.php';
 require_once dirname(__DIR__) . '/src/Controllers/DashboardController.php';
 require_once dirname(__DIR__) . '/src/Controllers/AuthController.php';
 
@@ -82,10 +83,10 @@ switch ($route) {
         $controller->index();
         break;
 
-    case 'search': // Добавь эту строку
-        $controller = new \App\Controllers\ScheduleController();
-        $controller->index();
-        break;
+    // case 'search': // Добавь эту строку
+    //     $controller = new \App\Controllers\ScheduleController();
+    //     $controller->index();
+    //     break;
 
     case 'schedule':
         $controller = new \App\Controllers\ScheduleController();

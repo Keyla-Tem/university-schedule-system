@@ -38,8 +38,8 @@
         <?php endif; ?>
 
         <ul class="nav-menu">
-            <li><a href="index.php?route=search">🔎 Поиск</a></li>
-            <li><a href="index.php?route=schedule">📅 Расписание</a></li>
+            <li><a href="index.php?route=schedule">🔎 Поиск</a></li>
+            <li><a href="index.php?route=search">📅 Расписание</a></li>
             <li><a href="index.php?route=settings">⚙️ Настройки</a></li>
 
             <?php if (($_SESSION['role'] ?? 'user') === 'admin'): ?>
