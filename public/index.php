@@ -45,14 +45,21 @@ require_once dirname(__DIR__) . '/src/Controllers/OrganizationUnitController.php
 require_once dirname(__DIR__) . '/src/Controllers/GroupController.php';
 require_once dirname(__DIR__) . '/src/Controllers/TeacherController.php';
 require_once dirname(__DIR__) . '/src/Controllers/ScheduleController.php';
+require_once dirname(__DIR__) . '/src/Controllers/DashboardController.php';
 
 // Слой роутинга: route выбирает раздел, action — действие (метод контроллера)
-$route = $_GET['route'] ?? 'schedule';
+// $route = $_GET['route'] ?? 'schedule';
+$route = $_GET['route'] ?? 'dashboard'; 
 $action = $_GET['action'] ?? 'index';
 
 ob_start();
 
 switch ($route) {
+
+    case 'dashboard':
+        $controller = new \App\Controllers\DashboardController();
+        $controller->index();
+        break;
 
     case 'schedule':
         $controller = new \App\Controllers\ScheduleController();
