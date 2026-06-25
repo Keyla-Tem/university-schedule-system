@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Если открыли корень (неважно, localhost/keyschedule/ или keyschedule.local/)
+# тихо перенаправляем в папку public
+RewriteRule ^$ public/index.php [L]
+
+# Если запрашиваемый файл или папка не существуют физически в корне,
+# перенаправляем весь запрос внутрь папки public
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/$1 [L]

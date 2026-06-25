@@ -1,14 +1,8 @@
 <?php
 
 if (!defined('BASE_URL')) {
-    // Получаем путь к текущему файлу index.php от корня веб-сервера.
-    // На XAMPP это будет: "/keyschedule/public/index.php"
-    // На Open Server с доменом keyschedule.local это будет: "/index.php"
     $scriptName = $_SERVER['SCRIPT_NAME'];
-
-    // Просто убираем "/index.php" из этого пути и получаем чистый базовый URL
     $baseUrl = str_replace('/index.php', '', $scriptName);
-
     define('BASE_URL', $baseUrl);
 }
 
@@ -36,7 +30,7 @@ require_once dirname(__DIR__) . '/src/Models/OrganizationUnit.php';
 require_once dirname(__DIR__) . '/src/Models/StudyGroup.php';
 require_once dirname(__DIR__) . '/src/Models/Teacher.php';
 require_once dirname(__DIR__) . '/src/Models/Schedule.php';
-
+require_once dirname(__DIR__) . '/src/Models/User.php'; // <-- ДОБАВИЛИ МОДЕЛЬ ЮЗЕРА
 
 // Подключение контроллеров
 require_once dirname(__DIR__) . '/src/Controllers/RoomController.php';
@@ -46,15 +40,39 @@ require_once dirname(__DIR__) . '/src/Controllers/GroupController.php';
 require_once dirname(__DIR__) . '/src/Controllers/TeacherController.php';
 require_once dirname(__DIR__) . '/src/Controllers/ScheduleController.php';
 require_once dirname(__DIR__) . '/src/Controllers/DashboardController.php';
+require_once dirname(__DIR__) . '/src/Controllers/AuthController.php'; // <-- ДОБАВИЛИ КОНТРОЛЛЕР АВТОРИЗАЦИИ
 
-// Слой роутинга: route выбирает раздел, action — действие (метод контроллера)
-// $route = $_GET['route'] ?? 'schedule';
 $route = $_GET['route'] ?? 'dashboard'; 
 $action = $_GET['action'] ?? 'index';
+
+// === БЛОК ЗАЩИТЫ (AUTH GUARD) ===
+// Если юзер не авторизован и пытается зайти не на логин/регистрацию — кидаем на вход
+if (!isset($_SESSION['user_id']) && $route !== 'login' && $route !== 'register') {
+    header("Location: index.php?route=login");
+    exit;
+}
+// =================================
 
 ob_start();
 
 switch ($route) {
+
+    // --- НОВЫЕ МАРШРУТЫ АВТОРИЗАЦИИ ---
+    case 'login':
+        $controller = new \App\Controllers\AuthController();
+        $controller->login();
+        exit; // Выходим, чтобы не рисовать header/footer вокруг формы входа
+
+    case 'register':
+        $controller = new \App\Controllers\AuthController();
+        $controller->register();
+        exit; // Выходим, чтобы не рисовать header/footer
+
+    case 'logout':
+        $controller = new \App\Controllers\AuthController();
+        $controller->logout();
+        exit;
+    // -----------------------------------
 
     case 'dashboard':
         $controller = new \App\Controllers\DashboardController();
@@ -73,7 +91,6 @@ switch ($route) {
 
     case 'universities':
         $controller = new \App\Controllers\UniversityController();
-        // Динамически вызываем метод, если он существует в контроллере
         if (method_exists($controller, $action)) {
             $controller->$action();
         }
@@ -84,10 +101,6 @@ switch ($route) {
         if (method_exists($controller, $action)) {
             $controller->$action();
         }
-        break;
-
-    case 'schedule':
-        echo "<h1>Страница расписания (в разработке)</h1>";
         break;
 
     case 'groups':
