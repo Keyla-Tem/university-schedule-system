@@ -35,6 +35,8 @@ require_once dirname(__DIR__) . '/src/Models/University.php';
 require_once dirname(__DIR__) . '/src/Models/OrganizationUnit.php';
 require_once dirname(__DIR__) . '/src/Models/StudyGroup.php';
 require_once dirname(__DIR__) . '/src/Models/Teacher.php';
+require_once dirname(__DIR__) . '/src/Models/Schedule.php';
+
 
 // Подключение контроллеров
 require_once dirname(__DIR__) . '/src/Controllers/RoomController.php';
@@ -42,6 +44,7 @@ require_once dirname(__DIR__) . '/src/Controllers/UniversityController.php';
 require_once dirname(__DIR__) . '/src/Controllers/OrganizationUnitController.php';
 require_once dirname(__DIR__) . '/src/Controllers/GroupController.php';
 require_once dirname(__DIR__) . '/src/Controllers/TeacherController.php';
+require_once dirname(__DIR__) . '/src/Controllers/ScheduleController.php';
 
 // Слой роутинга: route выбирает раздел, action — действие (метод контроллера)
 $route = $_GET['route'] ?? 'schedule';
@@ -50,6 +53,12 @@ $action = $_GET['action'] ?? 'index';
 ob_start();
 
 switch ($route) {
+
+    case 'schedule':
+        $controller = new \App\Controllers\ScheduleController();
+        $controller->index();
+        break;
+
     case 'classrooms':
         $controller = new \App\Controllers\RoomController();
         $controller->index();
