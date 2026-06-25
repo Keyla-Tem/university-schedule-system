@@ -46,4 +46,54 @@ class ScheduleRepository {
         
         return (int)$stmt->fetchColumn() > 0;
     }
+
+    /**
+     * Fetches the schedule grid data based on filters.
+     * Replaces the old Schedule::getSchedule() method.
+     */
+    public function getFilteredSchedule(int $semesterId, array $filters = []): array {
+        $db = \App\Config\Database::getDB();
+        
+        $sql = "SELECT se.id, se.day_of_week, se.week_parity, se.status, se.notes,
+                       bs.pair_number, bs.start_time, bs.end_time,
+                       d.name AS discipline_name,
+                       lt.name AS lesson_type_name,
+                       CONCAT(t.last_name, ' ', SUBSTRING(t.first_name, 1, 1), '.', SUBSTRING(t.middle_name, 1, 1), '.') AS teacher_short_name,
+                       r.room_number,
+                       sg.name AS group_name
+                FROM schedule_entries se
+                JOIN bell_schedules bs ON se.bell_schedule_id = bs.id
+                JOIN disciplines d ON se.discipline_id = d.id
+                JOIN lesson_types lt ON se.lesson_type_id = lt.id
+                JOIN teachers t ON se.teacher_id = t.id
+                LEFT JOIN rooms r ON se.room_id = r.id
+                JOIN study_groups sg ON se.study_group_id = sg.id
+                WHERE se.semester_id = :semester_id AND se.status = 'active'";
+        
+        $params = [':semester_id' => $semesterId];
+
+        if (!empty($filters['study_group_id'])) {
+            $sql .= " AND se.study_group_id = :study_group_id";
+            $params[':study_group_id'] = $filters['study_group_id'];
+        }
+
+        if (!empty($filters['teacher_id'])) {
+            $sql .= " AND se.teacher_id = :teacher_id";
+            $params[':teacher_id'] = $filters['teacher_id'];
+        }
+
+        if (!empty($filters['week_parity']) && $filters['week_parity'] !== 'both') {
+            // Include specific parity ('odd' or 'even') PLUS 'both' (every week)
+            $sql .= " AND se.week_parity IN (:week_parity, 'both')";
+            $params[':week_parity'] = $filters['week_parity'];
+        }
+
+        // Sort by day first, then by the pair number (time)
+        $sql .= " ORDER BY se.day_of_week, bs.pair_number";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute($params);
+        
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

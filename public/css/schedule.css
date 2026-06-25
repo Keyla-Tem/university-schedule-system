@@ -1,0 +1,99 @@
+/* File path: public/css/schedule.css */
+
+/* CSS Grid Layout for Schedule */
+.schedule-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.schedule-filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+.filter-select {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1rem;
+    flex-grow: 1;
+}
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6 equal columns for Mon-Sat */
+    gap: 15px;
+    align-items: start;
+}
+.day-column {
+    background: #fdfdfd;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 10px;
+    min-height: 500px;
+}
+.day-header {
+    text-align: center;
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #dee2e6;
+    text-transform: uppercase;
+}
+.lesson-card {
+    background: #ffffff;
+    border-left: 4px solid #0d6efd; /* Default blue for lectures */
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    font-size: 0.9em;
+    transition: transform 0.2s ease;
+}
+.lesson-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.lesson-time {
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+}
+.lesson-title {
+    font-weight: bold;
+    color: #212529;
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+.lesson-meta {
+    color: #6c757d;
+    font-size: 0.85em;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.error-msg {
+    grid-column: span 6;
+    text-align: center;
+    color: #dc3545;
+    font-weight: bold;
+}
+.loading-spinner {
+    grid-column: span 6;
+    text-align: center;
+    padding: 20px;
+    color: #6c757d;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 1200px) {
+    .schedule-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+    .schedule-grid { grid-template-columns: 1fr; }
+    .schedule-filters { flex-direction: column; }
+}
