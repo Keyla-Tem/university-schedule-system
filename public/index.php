@@ -34,6 +34,7 @@ require_once dirname(__DIR__) . '/src/Models/User.php';
 
 // Подключение контроллеров
 require_once dirname(__DIR__) . '/src/Controllers/BaseController.php';
+require_once dirname(__DIR__) . '/src/Controllers/SettingsController.php';
 require_once dirname(__DIR__) . '/src/Controllers/RoomController.php';
 require_once dirname(__DIR__) . '/src/Controllers/UniversityController.php';
 require_once dirname(__DIR__) . '/src/Controllers/OrganizationUnitController.php';
@@ -108,6 +109,15 @@ switch ($route) {
     case 'teachers':
         $controller = new \App\Controllers\TeacherController();
         $controller->index();
+        break;
+
+    case 'settings':
+        $controller = new \App\Controllers\SettingsController();
+        if ($action === 'update') {
+            $controller->update();
+        } else {
+            $controller->index();
+        }
         break;
 
     default:

@@ -24,7 +24,6 @@
     <aside class="sidebar">
 
         <div class="sidebar-header">📅 Расписание Университета</div>
-        <ul class="nav-menu">
 
         <?php if (isset($_SESSION['user_id'])): ?>
         <div class="user-profile-block" style="padding: 15px; background: rgba(255, 255, 255, 0.05); border-radius: 6px; margin: 10px; border-left: 4px solid #6366f1;">
@@ -38,17 +37,23 @@
         </div>
         <?php endif; ?>
 
-        
+        <ul class="nav-menu">
             <li><a href="index.php?route=dashboard">🏠 Главная</a></li>
-            <li><a href="index.php?route=curriculums">📚 Учебные планы</a></li>
-            <li><a href="index.php?route=groups">👥 Учебные группы</a></li>
-            <li><a href="index.php?route=teachers">👨‍🏫 Преподаватели</a></li>
-            <li><a href="index.php?route=units">🏢 Подразделения</a></li>
-            <li><a href="index.php?route=classrooms">🚪 Аудитории</a></li>
-            <li><a href="index.php?route=buildings">🏫 Корпуса</a></li>
             <li><a href="index.php?route=schedule">📅 Расписание</a></li>
-            <li><a href="index.php?route=reports">📊 Отчеты</a></li>
             <li><a href="index.php?route=settings">⚙️ Настройки</a></li>
+
+            <?php if (($_SESSION['role'] ?? 'user') === 'admin'): ?>
+                <li style="margin-top: 20px; padding: 10px 0 5px 15px; color: #6366f1; font-size: 10px; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; border-top: 1px solid rgba(255,255,255,0.05);">
+                    Администрирование
+                </li>
+                <li><a href="index.php?route=curriculums">📚 Учебные планы</a></li>
+                <li><a href="index.php?route=groups">👥 Учебные группы</a></li>
+                <li><a href="index.php?route=teachers">👨‍🏫 Преподаватели</a></li>
+                <li><a href="index.php?route=units">🏢 Подразделения</a></li>
+                <li><a href="index.php?route=classrooms">🚪 Аудитории</a></li>
+                <li><a href="index.php?route=buildings">🏫 Корпуса</a></li>
+                <li><a href="index.php?route=reports">📊 Отчеты</a></li>
+            <?php endif; ?>
             
             <?php if (isset($_SESSION['user_id'])): ?>
             <li style="margin-top: 25px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 10px;">

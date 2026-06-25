@@ -23,4 +23,27 @@ class User {
         ");
         return $stmt->execute([$universityId, trim($name), trim($email), $passwordHash]);
     }
+
+    public static function findById($id) {
+        $db = \App\Config\Database::getDB();
+        $stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public static function updateProfile($userId, $name, $email, $universityId, $groupId, $password = null) {
+        $db = \App\Config\Database::getDB();
+        $sql = "UPDATE users SET name = ?, email = ?, university_id = ?, study_group_id = ?";
+        $params = [$name, $email, $universityId, $groupId];
+
+        if (!empty($password)) {
+            $sql .= ", password_hash = ?";
+            $params[] = password_hash($password, PASSWORD_DEFAULT);
+        }
+        
+        $sql .= " WHERE id = ?";
+        $params[] = $userId;
+        
+        return $db->prepare($sql)->execute($params);
+    }
 }
