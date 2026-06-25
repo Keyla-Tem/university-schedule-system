@@ -8,7 +8,7 @@ class AuthController {
     // Отображение и обработка формы Входа
     public function login() {
         if (isset($_SESSION['user_id'])) {
-            header("Location: index.php?route=schedule");
+            header("Location: index.php?route=timetable");
             exit;
         }
 
@@ -27,7 +27,7 @@ class AuthController {
                 // Сохраняем роль пользователя для разделения прав
                 $_SESSION['role'] = $user['role'] ?? 'user'; 
 
-                header("Location: index.php?route=schedule");
+                header("Location: index.php?route=timetable");
                 exit;
             } else {
                 $error = 'Неверный email или пароль!';
@@ -40,7 +40,7 @@ class AuthController {
     // Отображение и обработка формы Регистрации
     public function register() {
         if (isset($_SESSION['user_id'])) {
-            header("Location: index.php?route=schedule");
+            header("Location: index.php?route=timetable");
             exit;
         }
 
