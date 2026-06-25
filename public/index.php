@@ -33,6 +33,7 @@ require_once dirname(__DIR__) . '/src/Models/Schedule.php';
 require_once dirname(__DIR__) . '/src/Models/User.php';
 
 // Подключение контроллеров
+require_once dirname(__DIR__) . '/src/Controllers/BaseController.php';
 require_once dirname(__DIR__) . '/src/Controllers/RoomController.php';
 require_once dirname(__DIR__) . '/src/Controllers/UniversityController.php';
 require_once dirname(__DIR__) . '/src/Controllers/OrganizationUnitController.php';

@@ -5,12 +5,13 @@ use App\Models\Schedule;
 use App\Repositories\ScheduleRepository;
 use App\Services\ScheduleService;
 
-class ScheduleController {
+class ScheduleController extends BaseController {
     
     /**
      * Отображение общего расписания занятий
      */
     public function index() {
+        $this->requireLogin();
         $schedule = Schedule::getSchedule();
         include dirname(__DIR__) . '/Views/schedule.view.php';
     }
@@ -20,6 +21,7 @@ class ScheduleController {
      * с предварительной проверкой ограничений по нагрузке преподавателя
      */
     public function store() {
+        $this->requireAdmin();
         // Проверяем, что данные отправлены методом POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: ?route=schedule');

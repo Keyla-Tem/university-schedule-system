@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\OrganizationUnit;
 use App\Models\University;
 
-class OrganizationUnitController
+class OrganizationUnitController extends BaseController
 {
     private OrganizationUnit $unitModel;
     private University $universityModel;
@@ -18,6 +18,8 @@ class OrganizationUnitController
 
     public function index(): void
     {
+        $this->requireLogin();
+
         // Привязываем список подразделений к конкретному ВУЗу
         $universityId = (int)($_GET['university_id'] ?? 0);
         $university = $this->universityModel->getById($universityId);
@@ -33,6 +35,7 @@ class OrganizationUnitController
 
     public function create(): void
     {
+        $this->requireAdmin();
         $universityId = (int)($_GET['university_id'] ?? 0);
         $university = $this->universityModel->getById($universityId);
         
@@ -44,6 +47,7 @@ class OrganizationUnitController
 
     public function store(): void
     {
+        $this->requireAdmin();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $universityId = (int)($_POST['university_id'] ?? 0);
             $parentId = $_POST['parent_id'] !== '' ? (int)$_POST['parent_id'] : null;
@@ -61,6 +65,7 @@ class OrganizationUnitController
 
     public function edit(): void
     {
+        $this->requireAdmin();
         $id = (int)($_GET['id'] ?? 0);
         $unit = $this->unitModel->getById($id);
 
@@ -77,6 +82,7 @@ class OrganizationUnitController
 
     public function update(): void
     {
+        $this->requireAdmin();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = (int)($_POST['id'] ?? 0);
             $universityId = (int)($_POST['university_id'] ?? 0);
@@ -95,6 +101,7 @@ class OrganizationUnitController
 
     public function delete(): void
     {
+        $this->requireAdmin();
         $id = (int)($_GET['id'] ?? 0);
         $universityId = (int)($_GET['university_id'] ?? 0);
         

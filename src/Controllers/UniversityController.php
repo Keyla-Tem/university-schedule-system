@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\University;
 
-class UniversityController
+class UniversityController extends BaseController
 {
     private University $universityModel;
 
@@ -15,17 +15,21 @@ class UniversityController
 
     public function index(): void
     {
+        $this->requireLogin();
+        
         $universities = $this->universityModel->getAll();
         require_once dirname(__DIR__) . '/Views/universities/index.php';
     }
 
     public function create(): void
     {
+        $this->requireAdmin();
         require_once dirname(__DIR__) . '/Views/universities/create.php';
     }
 
     public function store(): void
     {
+        $this->requireAdmin();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Фильтрация входных данных
             $name = trim(htmlspecialchars($_POST['name'] ?? ''));
@@ -41,6 +45,7 @@ class UniversityController
 
     public function edit(): void
     {
+        $this->requireAdmin();
         $id = (int)($_GET['id'] ?? 0);
         $university = $this->universityModel->getById($id);
 
@@ -54,6 +59,7 @@ class UniversityController
 
     public function update(): void
     {
+        $this->requireAdmin();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = (int)($_POST['id'] ?? 0);
             $name = trim(htmlspecialchars($_POST['name'] ?? ''));
@@ -69,6 +75,7 @@ class UniversityController
 
     public function delete(): void
     {
+        $this->requireAdmin();
         $id = (int)($_GET['id'] ?? 0);
         if ($id > 0) {
             $this->universityModel->delete($id);

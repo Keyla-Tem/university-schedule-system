@@ -10,6 +10,8 @@ if (!function_exists('e')) {
 <div class="page-content">
     <h2>Аудитории университета</h2>
 
+    <?php if (($_SESSION['role'] ?? '') === 'admin'): ?>
+
     <div class="crud-form-container" style="margin-bottom: 20px;">
         <h3 style="margin-bottom: 15px; font-size: 14px; font-weight: 600;">Добавить новую аудиторию</h3>
         <form action="index.php?route=classrooms" method="POST" class="crud-form">
@@ -59,6 +61,8 @@ if (!function_exists('e')) {
         </form>
     </div>
 
+    <?php endif; ?>
+
     <div class="list-grid">
         <?php foreach ($rooms as $room): ?>
             <div class="list-card-wrapper" style="position: relative; display: inline-block;">
@@ -70,11 +74,16 @@ if (!function_exists('e')) {
                     <span class="badge"><?= $room['lesson_count'] ?> пар</span>
                 </a>
                 
+                <?php if (($_SESSION['role'] ?? '') === 'admin'): ?>
+
                 <form action="index.php?route=classrooms" method="POST" onsubmit="return confirm('Реально удалить эту аудиторию?');" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
                     <input type="hidden" name="action" value="delete_room">
                     <input type="hidden" name="room_id" value="<?= $room['id'] ?>">
                     <button type="submit" class="btn btn-danger" title="Удалить" style="border: none; background: none; cursor: pointer; padding: 5px; font-weight: bold; font-size: 14px; line-height: 1;">×</button>
                 </form>
+
+                <?php endif; ?>
+
             </div>
         <?php endforeach; ?>
     </div>
