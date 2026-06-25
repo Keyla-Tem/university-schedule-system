@@ -72,6 +72,11 @@ class ScheduleRepository {
         
         $params = [':semester_id' => $semesterId];
 
+        if (!empty($filters['university_id'])) {
+            $sql .= " AND se.university_id = :university_id"; // Убедись, что поле university_id есть в таблице se
+            $params[':university_id'] = $filters['university_id'];
+        }
+
         if (!empty($filters['study_group_id'])) {
             $sql .= " AND se.study_group_id = :study_group_id";
             $params[':study_group_id'] = $filters['study_group_id'];

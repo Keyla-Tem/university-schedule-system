@@ -7,30 +7,30 @@
         <h1>Расписание занятий</h1>
         
         <div class="schedule-filters">
-            <select id="group-filter" class="filter-select">
-                <option value="">-- Выберите группу --</option>
-                <?php foreach ($studyGroups as $group): ?>
-                    <option value="<?= $group['id'] ?>" <?= $group['id'] == $userGroupId ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($group['name']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+    <select id="university-filter" class="filter-select">
+        <option value="">-- Выберите вуз --</option>
+        <?php foreach ($universities as $uni): ?>
+            <option value="<?= $uni['id'] ?>"><?= htmlspecialchars($uni['name']) ?></option>
+        <?php endforeach; ?>
+    </select>
 
-            <select id="teacher-filter" class="filter-select">
-                <option value="">-- Выберите преподавателя --</option>
-                <?php foreach ($teachers as $teacher): ?>
-                    <option value="<?= $teacher['id'] ?>">
-                        <?= htmlspecialchars($teacher['name']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+    <select id="group-filter" class="filter-select">
+        <option value="">-- Выберите группу --</option>
+        <?php foreach ($studyGroups as $group): ?>
+            <option value="<?= $group['id'] ?>" <?= $group['id'] == $userGroupId ? 'selected' : '' ?>>
+                <?= htmlspecialchars($group['name']) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 
-            <select id="parity-filter" class="filter-select">
-                <option value="both">Все недели</option>
-                <option value="odd">Числитель (нечетная)</option>
-                <option value="even">Знаменатель (четная)</option>
-            </select>
-        </div>
+    <select id="teacher-filter" class="filter-select">
+        <option value="">-- Выберите преподавателя --</option>
+        <?php foreach ($teachers as $teacher): ?>
+            <option value="<?= $teacher['id'] ?>"><?= htmlspecialchars($teacher['name']) ?></option>
+        <?php endforeach; ?>
+    </select>
+    
+    </div>
     </header>
 
     <div class="schedule-grid" id="schedule-grid">
@@ -50,14 +50,22 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Запрос данных через AJAX (метод handleAjaxSchedule в контроллере)
      */
+    const uniFilter = document.getElementById('university-filter');
+    const groupFilter = document.getElementById('group-filter');
+
     const fetchSchedule = async () => {
+        const uniId = uniFilter.value;
+        const groupId = groupFilter.value;
         const groupId = groupFilter.value;
         const teacherId = teacherFilter.value;
         const parity = parityFilter.value;
 
+        uniFilter.addEventListener('change', fetchSchedule);
+
         grid.innerHTML = '<div class="loading-spinner">Загрузка...</div>';
 
         // URL строится на основе твоего маршрутизатора
+        const url = `?route=schedule&ajax=1&university_id=${uniId}&study_group_id=${groupId}...`;
         const url = `?route=schedule&ajax=1&study_group_id=${groupId}&teacher_id=${teacherId}&week_parity=${parity}`;
 
         try {
@@ -120,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     groupFilter.addEventListener('change', () => { teacherFilter.value = ''; fetchSchedule(); });
     teacherFilter.addEventListener('change', () => { groupFilter.value = ''; fetchSchedule(); });
     parityFilter.addEventListener('change', fetchSchedule);
+    uniFilter.addEventListener('change', fetchSchedule);
 
     fetchSchedule();
 });

@@ -6,36 +6,30 @@ use App\Repositories\ScheduleRepository;
 use App\Services\ScheduleService;
 
 class ScheduleController extends BaseController {
-    
-    /**
-     * Отображение общего расписания занятий
-     */
-    /**
-     * Отображение общего расписания занятий и обработка AJAX-запросов
-     */
     public function index() {
         $this->requireLogin();
         
-        // Intercept AJAX request to fetch the JSON schedule data
         if (isset($_GET['ajax']) && $_GET['ajax'] === '1') {
             $this->handleAjaxSchedule();
             return;
         }
 
         $db = \App\Config\Database::getDB();
-        $universityId = $_SESSION['university_id'] ?? 1; // Fallback, adjust based on your session logic
+        $userGroupId = $_SESSION['study_group_id'] ?? null;
+        $universityId = $_SESSION['university_id'] ?? 1;
 
-        // Fetch data for the filter dropdowns
-        $groupsStmt = $db->prepare("SELECT id, name FROM study_groups WHERE university_id = ? AND is_active = 1 ORDER BY name");
+        // 1. Получаем список вузов
+        $universities = $db->query("SELECT id, name FROM universities ORDER BY name")->fetchAll(\PDO::FETCH_ASSOC);
+
+        // 2. Получаем группы (без ошибочного is_active, если его нет)
+        $groupsStmt = $db->prepare("SELECT id, name FROM study_groups WHERE university_id = ? ORDER BY name");
         $groupsStmt->execute([$universityId]);
         $studyGroups = $groupsStmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        $teachersStmt = $db->prepare("SELECT id, CONCAT(last_name, ' ', first_name) AS name FROM teachers WHERE university_id = ? AND is_active = 1 ORDER BY last_name");
+        // 3. Получаем преподавателей
+        $teachersStmt = $db->prepare("SELECT id, CONCAT(last_name, ' ', first_name) AS name FROM teachers WHERE university_id = ? ORDER BY last_name");
         $teachersStmt->execute([$universityId]);
         $teachers = $teachersStmt->fetchAll(\PDO::FETCH_ASSOC);
-
-        // Pre-select group if the user is a student
-        $userGroupId = $_SESSION['study_group_id'] ?? null;
 
         include dirname(__DIR__) . '/Views/schedule.view.php';
     }

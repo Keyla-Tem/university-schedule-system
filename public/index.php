@@ -82,6 +82,11 @@ switch ($route) {
         $controller->index();
         break;
 
+    case 'search': // Добавь эту строку
+        $controller = new \App\Controllers\ScheduleController();
+        $controller->index();
+        break;
+
     case 'schedule':
         $controller = new \App\Controllers\ScheduleController();
         $controller->index();
