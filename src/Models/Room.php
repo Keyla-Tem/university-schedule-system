@@ -34,7 +34,6 @@ class Room
             ORDER BY b.name, r.room_number
         ");
         
-        // Передаем переменную 3 раза — по разу на каждый знак "?" в запросе
         $stmt->execute([$universityId, $universityId, $universityId]);
         return $stmt->fetchAll();
     }
@@ -42,8 +41,8 @@ class Room
     public function getById(int $roomId): ?array
     {
         $stmt = $this->db->prepare("
-            SELECT r.room_number, r.capacity, rt.name AS type, b.name AS building_name
-            FROM rooms r 
+            SELECT r.*, b.name AS building_name, rt.name AS type_name
+            FROM rooms r
             LEFT JOIN buildings b ON r.building_id = b.id
             LEFT JOIN room_types rt ON r.room_type_id = rt.id
             WHERE r.id = ?
@@ -70,14 +69,41 @@ class Room
             LEFT JOIN disciplines d ON se.discipline_id = d.id
             LEFT JOIN lesson_types lt ON se.lesson_type_id = lt.id
             LEFT JOIN teachers t ON se.teacher_id = t.id
-            -- Связываем через bell_schedule_id, как заложено в структуре БД
             LEFT JOIN bell_schedules bs ON se.bell_schedule_id = bs.id
             WHERE se.room_id = ? 
               AND se.semester_id = (SELECT id FROM semesters WHERE is_active = 1 AND university_id = ? LIMIT 1)
-            ORDER BY se.day_of_week, bs.pair_number
+            ORDER BY se.day_of_week, bs.pair_number, se.week_parity
         ");
-        
         $stmt->execute([$roomId, $universityId]);
         return $stmt->fetchAll();
+    }
+
+    /**
+     * Метод для добавления новой аудитории в базу данных
+     */
+    public function create(int $universityId, int $buildingId, int $roomTypeId, string $roomNumber, int $capacity, string $notes = ''): bool
+    {
+        $stmt = $this->db->prepare("
+            INSERT INTO rooms (university_id, building_id, room_type_id, room_number, capacity, is_online, notes)
+            VALUES (?, ?, ?, ?, ?, 0, ?)
+        ");
+        
+        return $stmt->execute([
+            $universityId,
+            $buildingId,
+            $roomTypeId,
+            trim($roomNumber),
+            $capacity,
+            trim($notes)
+        ]);
+    }
+
+    /**
+     * Метод для удаления аудитории по её ID
+     */
+    public function delete(int $roomId): bool
+    {
+        $stmt = $this->db->prepare("DELETE FROM rooms WHERE id = ?");
+        return $stmt->execute([$roomId]);
     }
 }
