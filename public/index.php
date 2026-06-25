@@ -31,7 +31,7 @@ require_once dirname(__DIR__) . '/src/Models/StudyGroup.php';
 require_once dirname(__DIR__) . '/src/Models/Teacher.php';
 require_once dirname(__DIR__) . '/src/Models/Schedule.php';
 require_once dirname(__DIR__) . '/src/Models/User.php';
-
+require_once dirname(__DIR__) . '/src/Models/Timetable.php';
 // Подключение контроллеров
 require_once dirname(__DIR__) . '/src/Controllers/BaseController.php';
 require_once dirname(__DIR__) . '/src/Controllers/SettingsController.php';
@@ -45,7 +45,7 @@ require_once dirname(__DIR__) . '/src/Controllers/TimetableController.php';
 require_once dirname(__DIR__) . '/src/Controllers/DashboardController.php';
 require_once dirname(__DIR__) . '/src/Controllers/AuthController.php';
 
-$route = $_GET['route'] ?? 'dashboard'; 
+$route = $_GET['route'] ?? 'timetable'; 
 $action = $_GET['action'] ?? 'index';
 
 // === БЛОК ЗАЩИТЫ (AUTH GUARD) ===
@@ -83,10 +83,10 @@ switch ($route) {
         $controller->index();
         break;
 
-    // case 'search': // Добавь эту строку
-    //     $controller = new \App\Controllers\ScheduleController();
-    //     $controller->index();
-    //     break;
+    case 'timetable':
+        $controller = new \App\Controllers\TimetableController();
+        $controller->index();
+        break;
 
     case 'schedule':
         $controller = new \App\Controllers\ScheduleController();
