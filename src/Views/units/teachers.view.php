@@ -1,4 +1,4 @@
-<?php include dirname(__DIR__, 2) . '/layout/header.php'; ?>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/keyschedule/src/Views/layout/header.php'; ?>
 <div class="container">
     <h1>Список преподавателей</h1>
     <table class="schedule-table">
@@ -18,4 +18,4 @@
         </tbody>
     </table>
 </div>
-<?php include dirname(__DIR__, 2) . '/layout/footer.php'; ?>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/keyschedule/src/Views/layout/footer.php'; ?>
