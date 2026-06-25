@@ -17,7 +17,8 @@ $days = [
     7 => 'Воскресенье'
 ];
 
-include dirname(__DIR__) . '/layout/header.php';
+include __DIR__ . '/layout/header.php';
+// include dirname(__DIR__) . '/layout/header.php';
 ?>
 
 <div class="page-content">
@@ -163,4 +164,4 @@ include dirname(__DIR__) . '/layout/header.php';
 
 </div>
 
-<?php include dirname(__DIR__) . '/layout/footer.php'; ?>
+<?php include __DIR__ . '/layout/footer.php'; ?>
